@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+      <meta charset="UTF-8">
+      <title>W02: task3</title>
+  </head>
+  <body>
+    vertex 0 :
+    <input type="number" id="_x0" oninput="calc()" value="0"/>
+    <input type="number" id="_y0" oninput="calc()" value="0"/>
+    <input type="number" id="_z0" oninput="calc()" value="0"/>
+    <br>
+    vertex 1 :
+    <input type="number" id="_x1" oninput="calc()" value="0"/>
+    <input type="number" id="_y1" oninput="calc()" value="0"/>
+    <input type="number" id="_z1" oninput="calc()" value="0"/>
+    <br>
+    vertex 2 :
+    <input type="number" id="_x2" oninput="calc()" value="0"/>
+    <input type="number" id="_y2" oninput="calc()" value="0"/>
+    <input type="number" id="_z2" oninput="calc()" value="0"/>
+<!--    <br><br>-->
+<!--    <input type="button" onclick="calc()" value="Calculate">-->
+    <br><br>
+    The area of triangle :
+    <p id="answer"></p>
+    <script src="vec3.js"></script>
+    <script>
+      function areaOfTriangle(v0, v1, v2)
+      {
+        return 1/2 * (((v1.sub(v0)).cross(v2.sub(v0))).length());
+      }
+
+      function calc()
+      {
+        var x0 = _x0.value;
+        var y0 = _y0.value;
+        var z0 = _z0.value;
+        var x1 = _x1.value;
+        var y1 = _y1.value;
+        var z1 = _z1.value;
+        var x2 = _x2.value;
+        var y2 = _y2.value;
+        var z2 = _z2.value;
+        var v0 = new Vec3(x0, y0, z0);
+        var v1 = new Vec3(x1, y1, z1);
+        var v2 = new Vec3(x2, y2, z2);
+
+        var S = areaOfTriangle(v0, v1, v2);
+        document.getElementById("answer").innerHTML = S;
+      }
+
+    </script>
+  </body>
+</html>
