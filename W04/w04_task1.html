@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>W04: Task1</title>
+  </head>
+  <body>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+      const svg = d3.select("body").append("svg");
+      d3.csv("https://seagull-n.github.io/Infovis2022/W04/w04_task1.csv", draw);
+    </script>
+  </body>
+</html>
