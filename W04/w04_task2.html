@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>W04: Task 2</title>
+  </head>
+  <body>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+      const svg = d3.select("body").append("svg");
+      const padding = 15
+      const height = 4
+      d3.csv("https://seagull-n.github.io/InfoVis2022/W04/w04_task2.csv", draw );
+      svg.append("text")
+        .attr("x", 20) // x座標
+        .attr("y", 10) // y座標
+        .attr("font-size", "10px")
+        .text("PCRの検査人数")  // プレーンテキスト
+
+      function draw(data) {
+        svg.selectAll("rect")
+          .data(data)
+          .enter()
+          .append("rect")
+          .attr("x", padding)
+          .attr("y", function (d, i) { return i * (height + padding * 0.1) + 20; })
+          .attr("width", function (d) { return d.width; })
+          .attr("height", height)
+          .style("fill", function (d) {
+            if (d.width < 50) return "blue";
+            else if (d.width < 100) return "orange";
+            else return "red";
+          })
+          svg.selectAll("text")
+            .data(data)
+            .enter()
+            .append("text")
+            .text(function (d) {return d.text})
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "2px")
+            .attr("x", 0)
+            .attr("y", function (d, i) { return i * (height + padding * 0.1) + 17; })
+            .attr("fill", "black")
+      }
+    </script>
+  </body>
+</html>
