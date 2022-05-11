@@ -4,9 +4,9 @@ d3.csv("https://seagull-n.github.io/InfoVis2022/W08/w08_task1.csv")
 
     let config = {
       parent: '#drawing_region',
-      width: 256,
+      width: 512,
       height: 256,
-      margin: {top:10, right:30, bottom:30, left:30},
+      margin: {top:50, right:20, bottom:50, left:100},
     };
 
     const bar_chart = new BarChart( config, data );
@@ -23,7 +23,7 @@ class BarChart {
       parent: config.parent,
       width: config.width || 256,
       height: config.height || 256,
-      margin: config.margin_axis || {top:10, right:10, bottom:10, left:10}
+      margin: config.margin || {top:10, right:10, bottom:10, left:10}
     }
     this.data = data;
     this.init();
@@ -48,30 +48,55 @@ class BarChart {
 
     self.y_scale = d3.scaleBand()
       .range( [0, self.chart_height] )
-      .padding(0.1);
+      .paddingInner(0.1);
 
 
-    // self.xaxis = d3.axisBottom( self.x_axis_scale )
-    //   .ticks(6).tickSize(4).tickPadding(5);
-    //
-    // self.yaxis = d3.axisLeft( self.y_axis_scale )
-    //   .ticks(6).tickSize(4).tickPadding(5);
-    //
-    // self.xaxis_group = self.chart_axis.append('g')
-    //   .attr('transform', `translate(0, ${self.chart_axis_height})`);
-    //
-    // self.yaxis_group = self.chart_axis.append('g')
-    //   .attr('transform', `translate(0, 0)`);
+    self.x_axis = d3.axisBottom( self.x_scale )
+      .ticks(5).tickSizeOuter(0);
 
+    self.y_axis = d3.axisLeft( self.y_scale )
+      .tickSizeOuter(0);
+
+    self.xaxis_group = self.chart.append('g')
+      .attr('transform', `translate(0, ${self.chart_height})`);
+
+    self.yaxis_group = self.chart.append('g')
+
+    self.title =  self.svg.append("text")
+      .attr("x", self.config.width / 2)
+      .attr("y", self.config.margin.top / 2)
+      .attr("font-size", "20px")
+      .attr("text-anchor", "top")
+      .attr("font-weight", 700)
+      .text("Favorite food");
+
+    self.y_label = self.svg.append("text")
+      .attr("fill", "black")
+      .attr("text-anchor", "middle")
+      .attr("x", -(this.config.height / 2))
+      .attr("y", this.config.margin.left / 2 - 20)
+      .attr("transform", "rotate(-90)")
+      .attr("font-weight", 700)
+      .attr("font-size", "10pt")
+      .text("Kinds of food");
+
+    self.x_label = self.svg.append("text")
+      .attr("fill", "black")
+      .attr("text-anchor", "middle")
+      .attr("x", self.config.width / 2 + self.config.margin.left / 2)
+      .attr("y", this.config.height - this.config.margin.bottom / 2 + 20)
+      .attr("font-weight", 700)
+      .attr("font-size", "10pt")
+      .text("Number of people");
 
   }
 
   update() {
     let self = this;
 
-    self.x_scale.domain( [0, d3.max( self.data, d => d.x )] );
+    self.x_scale.domain( [0, d3.max( self.data, d => d.value )] );
 
-    self.y_scale.domain( data.map(d => d.label) );
+    self.y_scale.domain( self.data.map(d => d.label) );
 
     self.render();
   }
@@ -84,9 +109,14 @@ class BarChart {
       .enter()
       .append("rect")
       .attr("x", 0)
-      .attr("y", d => this.y_scale(d.label))
+      .attr("y", d => self.y_scale(d.label))
       .attr("width", d => self.x_scale( d.value ) )
-      .attr("height", self.y_scale.bandwidth() )
+      .attr("height", self.y_scale.bandwidth() );
 
+      self.xaxis_group
+        .call(self.x_axis);
+
+      self.yaxis_group
+        .call(self.y_axis);
   }
 }
