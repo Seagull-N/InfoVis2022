@@ -1,4 +1,4 @@
-d3.csv("https://vizlab-kobe-lecture.github.io/InfoVis2021/W08/w08_task1.csv")
+d3.csv("https://seagull-n.github.io/InfoVis2022/W08/w08_task1.csv")
   .then( data => {
     data.forEach( d => { d.value = +d.value; });
 
@@ -6,7 +6,6 @@ d3.csv("https://vizlab-kobe-lecture.github.io/InfoVis2021/W08/w08_task1.csv")
       parent: '#drawing_region',
       width: 512,
       height: 256,
-      margin: {top:50, right:20, bottom:50, left:100},
     };
 
     const pie_chart = new PieChart( config, data );
@@ -23,7 +22,6 @@ class PieChart {
       parent: config.parent,
       width: config.width || 256,
       height: config.height || 256,
-      margin: config.margin || {top:10, right:10, bottom:10, left:10}
     }
     this.data = data;
     this.init();
@@ -32,27 +30,32 @@ class PieChart {
   init() {
     let self = this;
 
+    self.color = d3.scaleOrdinal(d3.schemeCategory10);
+
     self.svg = d3.select( self.config.parent )
       .attr('width', self.config.width)
-      .attr('height', self.config.height);
-
-    self.chart = self.svg.append('g')
+      .attr('height', self.config.height)
+      .append('g')
       .attr('transform', `translate(${self.config.width / 2}, ${self.config.height / 2})`);
 
     self.pie = d3.pie()
       .value( d => d.value );
 
+    self.radius = Math.min( self.config.width, self.config.height ) / 2;
     self.arc = d3.arc()
-      .innerRadius(0)
-      .outerRadius(Math.min( self.config.width, self.config.height ) / 2);
+      .innerRadius(self.radius /2)
+      .outerRadius(self.radius);
 
-    self.title =  self.svg.append("text")
-      .attr("x", self.config.width / 2)
-      .attr("y", self.config.margin_axis.top / 2)
-      .attr("font-size", "15px")
-      .attr("text-anchor", "top")
-      .attr("font-weight", 700)
-      .text("Title");
+    self.label_arc = d3.arc()
+      .outerRadius(self.radius-40)
+      .innerRadius(self.radius-40);
+    // self.title =  self.svg.append("text")
+    //   .attr("x", self.config.width / 2)
+    //   .attr("y", self.config.margin_axis.top / 2)
+    //   .attr("font-size", "15px")
+    //   .attr("text-anchor", "top")
+    //   .attr("font-weight", 700)
+    //   .text("Title");
   }
 
   update() {
@@ -64,13 +67,25 @@ class PieChart {
   render() {
     let self = this;
 
-    self.chart.selectAll("pie")
+    self.svg.selectAll('pie')
       .data( self.pie(self.data) )
       .enter()
-      .append("path")
-      .attr("d", self.arc )
-      .attr("fill", "black" )
-      .attr("stroke", "white" )
-      .style("stroke-width", "2");
+      .append('path')
+      .attr('d', self.arc)
+      .style("fill", function(d,i){
+        return self.color(i);
+      })
+      .attr('stroke', 'white');
+      // .style('stroke-width', '2px')
+    self.svg.selectAll("text")
+      .data( self.pie(self.data) )
+      .enter()
+      .append("text")
+      .attr("x","-30")
+      .attr("y","5")
+      .attr("fill", "black")
+      .attr("transform", function(d) { return "translate(" + self.label_arc.centroid(d) + ")"; })
+      .attr("font", "5px")
+      .text(function(d) { return d.data.label });
   }
 }
