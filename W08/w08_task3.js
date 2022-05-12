@@ -76,7 +76,7 @@ class PieChart {
         return self.color(i);
       })
       .attr('stroke', 'white');
-      // .style('stroke-width', '2px')
+
     self.svg.selectAll("text")
       .data( self.pie(self.data) )
       .enter()

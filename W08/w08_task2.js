@@ -4,7 +4,7 @@ d3.csv("https://seagull-n.github.io/InfoVis2022/W08/w08_task2.csv")
 
     let config = {
       parent: '#drawing_region',
-      width: 280,
+      width: 380,
       height: 200,
       margin: {top:20, right:20, bottom:70, left:60},
     };
