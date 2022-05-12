@@ -81,7 +81,7 @@ class PieChart {
       .data( self.pie(self.data) )
       .enter()
       .append("text")
-      .attr("x","-30")
+      .attr("x","-25")
       .attr("y","5")
       .attr("fill", "black")
       .attr("transform", function(d) { return "translate(" + self.label_arc.centroid(d) + ")"; })
