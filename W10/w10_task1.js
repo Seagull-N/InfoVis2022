@@ -11,7 +11,7 @@ d3.csv("https://seagull-n.github.io/InfoVis2022/W08/w08_task1.csv")
       margin: {top:50, right:20, bottom:50, left:100},
     };
 
-    bar_chart = new BarChart( config, data );
+    const bar_chart = new BarChart( config, data );
     bar_chart.update();
   })
   .catch( error => {
@@ -90,7 +90,6 @@ class BarChart {
       .attr("font-weight", 700)
       .attr("font-size", "10pt")
       .text("Number of people");
-
   }
 
   update() {
@@ -99,6 +98,17 @@ class BarChart {
     self.x_scale.domain( [0, d3.max( self.data, d => d.value )] );
 
     self.y_scale.domain( self.data.map(d => d.label) );
+
+    const pallet = chroma
+      .scale(['skyblue', 'lime', 'yellow', 'orange', 'red'])
+      .mode('lch')
+      .colors(7);
+
+    const limits = chroma.limits(self.data.map(d => d.value), 'e', 7);
+
+    self.colorScale = d3.scaleThreshold()
+      .domain(limits)
+      .range(pallet);
 
     self.render();
   }
@@ -116,7 +126,7 @@ class BarChart {
       .attr("width", d => self.x_scale( d.value ) )
       .attr("height", self.y_scale.bandwidth() )
       .style("fill", function(d){
-        return d.value;
+        return self.colorScale(d.value);
       })
 
     d3.select('#reverse')

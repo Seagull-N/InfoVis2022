@@ -1,5 +1,3 @@
-let scatter_plot;
-
 d3.csv("https://vizlab-kobe-lecture.github.io/InfoVis2021/W04/data.csv")
   .then( data => {
     data.forEach( d => { d.x = +d.x; d.y = +d.y; });
@@ -12,7 +10,7 @@ d3.csv("https://vizlab-kobe-lecture.github.io/InfoVis2021/W04/data.csv")
       margin_data: {top:30, right:30, bottom:30, left:30}
     };
 
-    scatter_plot = new ScatterPlot( config, data );
+    const scatter_plot = new ScatterPlot( config, data );
     scatter_plot.update();
   })
   .catch( error => {
@@ -167,22 +165,5 @@ class ScatterPlot {
 
     self.yaxis_group
       .call( self.yaxis )
-
-    // self.chart_data.selectAll("circle")
-    //   .on('mouseover', (e,d) => {
-    //     d3.select('#tooltip')
-    //       .style('opacity', 1)
-    //       .html(`<div class="tooltip-label">Position</div>(${d.x}, ${d.y})`);
-    //   })
-    //   .on('mousemove', (e) => {
-    //     const padding = 10;
-    //     d3.select('#tooltip')
-    //       .style('left', (e.pageX + padding) + 'px')
-    //       .style('top', (e.pageY + padding) + 'px');
-    //   })
-    //   .on('mouseleave', () => {
-    //     d3.select('#tooltip')
-    //       .style('opacity', 0);
-    //   });
   }
 }

@@ -10,5 +10,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="d3.v6" level="application" />
     <orderEntry type="library" name="d3.v6" level="application" />
+    <orderEntry type="library" name="chroma-js" level="application" />
   </component>
 </module>
