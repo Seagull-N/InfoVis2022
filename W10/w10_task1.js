@@ -18,7 +18,7 @@ d3.csv("https://seagull-n.github.io/InfoVis2022/W08/w08_task1.csv")
     console.log( error );
   });
 
-class BarChart {
+class BarChart {e
 
   constructor( config, data ) {
     this.config = {
