@@ -5,7 +5,7 @@ let detail_bar;
 let detail_line;
 let filter = [];
 
-d3.csv("finaltask_data.csv")
+d3.csv("https://seagull-n.github.io/InfoVis2022/FinalTask/finaltask_data.csv")
   .then( data => {
     input_data = data;
     input_data.forEach( d => {
