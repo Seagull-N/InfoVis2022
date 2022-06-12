@@ -11,5 +11,6 @@
     <orderEntry type="library" name="d3.v6" level="application" />
     <orderEntry type="library" name="d3.v6" level="application" />
     <orderEntry type="library" name="chroma-js" level="application" />
+    <orderEntry type="library" name="d3.v5" level="application" />
   </component>
 </module>

@@ -1,0 +1,29 @@
+<html>
+<head>
+  <title>Final task</title>
+  <style>
+    body {
+      font-family: system-ui;
+    }
+    .container {
+      display: flex;
+    }
+    .bar.active {
+      stroke: #000;
+    }
+  </style>
+</head>
+<body>
+<h2>Relationship between earthquake and temperature</h2>
+<div id="tooltip"></div>
+    <div class="container">
+      <div><p><svg id="drawing_region_rough"></svg></p>
+         <p><svg id="drawing_region_detail"></svg></p></div>
+      <div><svg id="legend" width="300" height="500"></svg></div>
+    </div>
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="finaltask_LineChart.js"></script>
+<script src="finaltask_BarChart.js"></script>
+<script src="finaltask_main.js"></script>
+</body>
+</html>
